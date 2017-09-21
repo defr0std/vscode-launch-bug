@@ -43,6 +43,13 @@ export function activate(context: vscode.ExtensionContext) {
             fs.mkdirSync(vsCodeFolder);
         }                
         fs.writeFileSync(launchFile, contents, {encoding: 'utf-8'});
+
+        vscode.workspace.openTextDocument(launchFile)
+            .then(d => vscode.window.showTextDocument(d))
+            .then(() => {
+                let configurations = vscode.workspace.getConfiguration("launch").get("configurations");
+                vscode.window.showInformationMessage('typeof configurations, expected: object, actual: ' + (typeof configurations));
+            });
     });
 
     context.subscriptions.push(disposable);
